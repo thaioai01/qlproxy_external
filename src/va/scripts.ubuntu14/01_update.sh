@@ -6,5 +6,11 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
-# update, upgrade and reboot
-apt-get update && apt-get -y upgrade && reboot
+# update and upgrade
+apt-get update && apt-get -y upgrade
+
+# switch to the currentl security-supported stack
+apt-get -y install linux-generic-lts-xenial linux-image-generic-lts-xenial
+
+# and reboot
+reboot

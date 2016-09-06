@@ -9,7 +9,7 @@ Welcome to Diladele Web Safety for Squid Proxy Web Filtering Appliance!
 
 Operating System    Ubuntu Server Linux 14.04
 Appliance Version   4.6.0
-Squid Version       3.3.8
+Squid Version       3.5.19
                     
 Allocated RAM       $RAMNFO
 CPU Count           $CPUNUM
