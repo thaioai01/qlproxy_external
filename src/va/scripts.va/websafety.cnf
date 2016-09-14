@@ -16,9 +16,9 @@ innodb_log_buffer_size=64M
 # machine physical memory size. Do not set it too large, though, because competition of the physical memory may
 # cause paging in the operating system. Note that on 32bit systems you might be limited to 2-3.5G of user level
 # memory per process, so do not set it too high.
-innodb_buffer_pool_size=2GB
+innodb_buffer_pool_size=1GB
 
 # Size of each log file in a log group. You should set the combined size of log files to about 25%-100% of your buffer
 # pool size to avoid unneeded buffer pool flush activity on log file overwrite. However, note that a larger logfile size will
 # increase the time needed for the recovery process.
-innodb_log_file_size=1GB
+innodb_log_file_size=100M
