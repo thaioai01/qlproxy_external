@@ -1,4 +1,5 @@
 #!/bin/sh
+# for now not used - contents from ubuntu actually
 if [ "$METHOD" = loopback ]; then
     exit 0
 fi
