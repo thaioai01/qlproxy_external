@@ -31,13 +31,8 @@ cp va_issue.sh /opt/qlproxy/bin/
 # now setup /etc/issue login banner
 if [ -f /etc/centos-release ] || [ -f /etc/redhat-release ]
 then
-    # we are on centos 7 - create a system wide interface up script
-    echo "On CENTOS NOT IMPL"
-    #    ???
-    #cp centos7/issue_update /etc/network/if-up.d/issue_update
-
-    # and make it executable
-    #chmod +x /etc/network/if-up.d/issue_update
+    # we are on centos 7 - just run the script (IP address will not be automatically updated)
+    /bin/bash /opt/qlproxy/bin/va_issue.sh > /etc/issue    
 else
     # we are on ubuntu - create a system wide interface up script
     cp ubuntu14/issue_update /etc/network/if-up.d/issue_update

@@ -8,7 +8,7 @@ VA_VER=`/opt/qlproxy/bin/ldap --version`
 SQUID_VER='3.5.19'
 
 # some string manupulation magic
-OSINFO_TMP1=`cat /etc/os-release | grep VERSION=`
+OSINFO_TMP1=`cat /etc/os-release | grep ^VERSION=`
 OSINFO_NAME=${OSINFO_TMP1#VERSION=}
 OSINFO_NAME=${OSINFO_NAME#\"}
 OSINFO_NAME=${OSINFO_NAME%\"}
@@ -33,9 +33,17 @@ echo "Default Username    root"
 echo "Default Password    Passw0rd"
 echo "Installation Dir    /opt/qlproxy"
 echo 
-echo "To use this Virtual Appliance - adjust your browser proxy settings to point"
-echo "to the IP address or domain name of this box $IPADDR, port 3128 and browse the web."
+if [ -f /etc/centos-release ] || [ -f /etc/redhat-release ]
+then
+    echo "To use this Virtual Appliance - adjust your browser proxy settings to point"
+    echo "to the IP address or domain name of this box (port 3128) and browse the web."
+    echo 
+    echo "Full featured Administrators Web Console is available at this box port 80"
+else
+    echo "To use this Virtual Appliance - adjust your browser proxy settings to point"
+    echo "to the IP address or domain name of this box $IPADDR, port 3128 and browse the web."
+    echo 
+    echo "Full featured Administrators Web Console is available at http://$IPADDR:80"
+fi
 echo 
-echo "Full featured Administrators Web Console is available at http://$IPADDR:80"
-echo 
-echo 
+echo    
