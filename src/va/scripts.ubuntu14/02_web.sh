@@ -30,3 +30,6 @@ apt-get -y install krb5-user
 
 # sometimes the check-new-release process on Ubuntu eats all CPU, so we switch it to manual
 sed -i "s/Prompt=lts/Prompt=never/g" /etc/update-manager/release-upgrades
+
+# switch to the current security-supported stack
+apt-get -y install linux-image-generic-lts-xenial linux-generic-lts-xenial && reboot
