@@ -20,3 +20,7 @@ pip install reportlab==3.3.0
 
 # install apache and mod_wsgi
 apt-get -y install apache2 libapache2-mod-wsgi
+
+# install kerberos client libraries
+export DEBIAN_FRONTEND=noninteractive 
+apt-get -y install krb5-user
