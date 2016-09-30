@@ -7,7 +7,4 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 # update, upgrade
-apt-get update && apt-get -y upgrade
-
-# and reboot
-reboot
+apt-get update && apt-get -y upgrade && reboot

@@ -6,15 +6,8 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
-# stop apache
-if [ -f /etc/centos-release ] || [ -f /etc/redhat-release ]; then
-	systemctl stop httpd
-else
-	service apache2 stop
-fi
-
-# set default password for root
-mysqladmin -u root password Passw0rd
+# create special 'qlproxy' user in mysql with superuser rights
+mysql -u root mysql < qlproxy.sql
 
 # create the database (all mysql specific settings are taken from settings.py)
 python /opt/qlproxy/var/console/switch_db.py --db=mysql

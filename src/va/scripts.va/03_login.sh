@@ -6,7 +6,7 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
-# reset root password to match documented one
+# reset system root password to match documented one
 sudo echo root:Passw0rd | sudo chpasswd
 
 # now we allow root login for ssh
@@ -41,7 +41,7 @@ else
     chmod +x /etc/network/if-up.d/issue_update
 fi
 
-# disable the user
+# disable the user we used to build the virtual appliance
 passwd user -l
 
 # exit successfully

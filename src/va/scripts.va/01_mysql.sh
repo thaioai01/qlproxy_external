@@ -8,8 +8,12 @@ fi
 
 # install the server
 if [ -f /etc/centos-release ] || [ -f /etc/redhat-release ]; then
+	
 	# centos, redhat
 	yum install -y mariadb-server mariadb patch MySQL-python
+
+	# stop mysql
+	systemctl stop mariadb.service
 
 	# copy the optimized mysql settings
 	yes | cp -f websafety.cnf /etc/my.cnf.d/websafety.cnf
@@ -19,6 +23,7 @@ if [ -f /etc/centos-release ] || [ -f /etc/redhat-release ]; then
 	systemctl start mariadb.service
 
 else
+
 	# debian, ubuntu
 	export DEBIAN_FRONTEND=noninteractive 
 
