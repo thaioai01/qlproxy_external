@@ -10,7 +10,7 @@ fi
 sudo echo root:Passw0rd | sudo chpasswd
 
 # now we allow root login for ssh
-sed -i "s/PermitRootLogin without-password/PermitRootLogin yes/g" /etc/ssh/sshd_config
+sed -i "s/PermitRootLogin *.*$/PermitRootLogin yes/g" /etc/ssh/sshd_config
 
 # install vm tools (only if vmware is detected)
 dmesg | grep -i "hypervisor detected: vmware" > /dev/null
