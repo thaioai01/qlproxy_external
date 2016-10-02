@@ -25,7 +25,7 @@ sed -i '' 's/apache24_enable=\"NO\"/apache24_enable=\"YES\"/' /usr/local/etc/rc.
 sed -i '' 's/\#LoadModule wsgi_module        libexec\/apache24\/mod_wsgi.so/LoadModule wsgi_module        libexec\/apache24\/mod_wsgi.so/' /usr/local/etc/apache24/modules.d/270_mod_wsgi.conf
 
 # make apache listen on 8080 port
-sed -i '' 's/Listen 80/Listen 8080/' /usr/local/etc/apache24/httpd.conf
+sed -i '' 's/Listen 80$/Listen 8080/' /usr/local/etc/apache24/httpd.conf
 
 # and include the virtual hosts
 sed -i '' 's/\#Include etc\/apache24\/extra\/httpd-vhosts.conf/Include etc\/apache24\/extra\/httpd-vhosts.conf/' /usr/local/etc/apache24/httpd.conf 
