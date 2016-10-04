@@ -1,5 +1,4 @@
 #!/bin/bash
-set -e
 
 # update should be done as root
 if [[ $EUID -ne 0 ]]; then
@@ -7,8 +6,8 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
-# update and upgrade
-yum -y update
+# enable epel repository and update
+yum -y install epel-release && yum -y update
 
 # disable selinux
 sed -i s/SELINUX=enforcing/SELINUX=disabled/g /etc/selinux/config
