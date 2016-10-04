@@ -6,30 +6,30 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
-# perform integration by replacing squid.conf file
+# adjust the squid.conf
 if [ ! -f /etc/squid/squid.conf.original ]; then
     mv /etc/squid/squid.conf /etc/squid/squid.conf.original
 fi
 
-# stop on any error
-set -e
-
-# create storage for generated ssl certificates
-/usr/lib64/squid/ssl_crtd -c -s /var/spool/squid_ssldb
-
-# and change its ownership
-chown -R squid:squid /var/spool/squid_ssldb
-
-# now move new configuration in place
-mv squid.conf /etc/squid/squid.conf
+# copy new config
+cp squid.conf /etc/squid/squid.conf
 
 # allow web ui read-only access to squid configuration file
 chmod o+r /etc/squid/squid.conf
+
+# create storage for generated ssl certificates
+SSL_DB=/var/spool/squid_ssldb
+if [ -d $SSL_DB ]; then
+	rm -Rf $SSL_DB
+fi
+
+/usr/lib64/squid/ssl_crtd -c -s $SSL_DB
+
+# and change its ownership
+chown -R squid:squid $SSL_DB
 
 # parse the resulting config just to be sure
 /usr/sbin/squid -k parse
 
 # restart squid to load all config
 systemctl restart squid.service
-
-echo "Squid integrated!"
