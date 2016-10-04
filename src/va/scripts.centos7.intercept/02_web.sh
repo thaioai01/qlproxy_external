@@ -1,5 +1,4 @@
 #!/bin/bash
-set -e
 
 # all web packages are installed as root
 if [[ $EUID -ne 0 ]]; then
@@ -7,11 +6,14 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
-# install python libs
-yum -y install python-setuptools python-ldap net-tools
+# install python libs and compiler (needed for reportlab)
+yum -y install \
+	python-devel python-pip python-ldap \
+	net-tools libjpeg-devel zlib-devel gcc-c++
 
 # install python django for web ui
-easy_install django==1.6.11
+pip install django==1.6.11
+pip install reportlab==3.3.0
 
 # install apache web server to run web ui
 yum -y install httpd mod_wsgi

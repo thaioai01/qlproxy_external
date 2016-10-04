@@ -1,0 +1,11 @@
+#!/bin/sh
+
+if [ "$METHOD" = loopback ]; then
+    exit 0
+fi
+
+if [ "$MODE" != start ]; then
+    exit 0
+fi
+
+/bin/bash /opt/qlproxy/bin/va_issue.sh > /etc/issue

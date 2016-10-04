@@ -7,12 +7,12 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 # default arc
-MAJOR="4.5.0"
-MINOR="7470"
+MAJOR="4.6.0"
+MINOR="CFA8"
 ARCH="amd64"
 
 # get latest qlproxy
-wget http://packages.diladele.com/qlproxy/$MAJOR.$MINOR/$ARCH/release/ubuntu14/qlproxy-$MAJOR.${MINOR}_$ARCH.deb
+wget http://packages.diladele.com/qlproxy/$MAJOR.$MINOR/$ARCH/release/ubuntu16/qlproxy-$MAJOR.${MINOR}_$ARCH.deb
 
 # install it
 dpkg --install qlproxy-$MAJOR.${MINOR}_$ARCH.deb

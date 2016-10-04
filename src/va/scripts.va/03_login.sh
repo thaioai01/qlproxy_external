@@ -12,31 +12,37 @@ sudo echo root:Passw0rd | sudo chpasswd
 # now we allow root login for ssh
 sed -i "s/PermitRootLogin without-password/PermitRootLogin yes/g" /etc/ssh/sshd_config
 
-# now setup /etc/issue login banner (on Ubuntu only)
-if [ -f /etc/centos-release ] || [ -f /etc/redhat-release ]; then
-	echo "The script works only on Ubuntu 14"
-	exit 1
+# install vm tools (only if vmware is detected)
+dmesg | grep -i "hypervisor detected: vmware" > /dev/null
+if [ $? -eq 0 ]; then
+    echo "Detected VMware, installing open-vm-tools..."
+    if [ -f /etc/centos-release ] || [ -f /etc/redhat-release ]; then
+        yum -y install open-vm-tools
+        systemctl enable vmtoolsd.service && systemctl start vmtoolsd.service
+    else
+        apt-get update > /dev/null
+        apt-get install -y open-vm-tools
+    fi
 fi
 
-# copy the login script to qlproxy directory
-cp vm_login.sh /opt/qlproxy/bin/
+# copy the /etc/issue creation script to qlproxy folder
+cp va_issue.sh /opt/qlproxy/bin/
 
-# create a system wide interface up script
-cat > /etc/network/if-up.d/vm_login_update <<EOFTEXT
-#!/bin/sh
-if [ "\$METHOD" = loopback ]; then
-    exit 0
+# now setup /etc/issue login banner
+if [ -f /etc/centos-release ] || [ -f /etc/redhat-release ]
+then
+    # we are on centos 7 - just run the script (IP address will not be automatically updated)
+    /bin/bash /opt/qlproxy/bin/va_issue.sh > /etc/issue    
+else
+    # we are on ubuntu - create a system wide interface up script
+    cp ubuntu14/issue_update /etc/network/if-up.d/issue_update
+
+    # and make it executable
+    chmod +x /etc/network/if-up.d/issue_update
 fi
 
-if [ "\$MODE" != start ]; then
-    exit 0
-fi
-
-/bin/bash /opt/qlproxy/bin/vm_login.sh
-EOFTEXT
-
-# make it executable
-chmod +x /etc/network/if-up.d/vm_login_update
-
-# and disable the user
+# disable the user
 passwd user -l
+
+# exit successfully
+echo "VA generated successfully, please reboot"

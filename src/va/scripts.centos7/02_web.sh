@@ -6,9 +6,6 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
-# install ntp server (we need to have the date time syncronized as SSL bump relies on correct system time)
-yum -y install ntp && systemctl enable ntpd && systemctl start ntpd
-
 # install python libs and compiler (needed for reportlab)
 yum -y install \
 	python-devel python-pip python-ldap \

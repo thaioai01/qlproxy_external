@@ -1,0 +1,11 @@
+#!/bin/sh
+# for now not used - contents from ubuntu actually
+if [ "$METHOD" = loopback ]; then
+    exit 0
+fi
+
+if [ "$MODE" != start ]; then
+    exit 0
+fi
+
+/usr/bin/python /opt/qlproxy/bin/va_issue.py
