@@ -7,8 +7,8 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 # default arc
-MAJOR="4.7.0"
-MINOR="5155"
+MAJOR="4.8.0"
+MINOR="C580"
 ARCH="amd64"
 
 # get latest qlproxy
