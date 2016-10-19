@@ -7,17 +7,16 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 # install required libs
-#export DEBIAN_FRONTEND=noninteractive 
-#apt-get -y install krb5-user nginx python-ldap python-pip
+export DEBIAN_FRONTEND=noninteractive 
+apt-get -y install krb5-user nginx python-ldap python-pip mc
 
 # install web safety requirements
-#pip install -r /opt/websafety/var/console/requirements.txt
+pip install -r /opt/websafety/var/webui/requirements.txt
 
 # add gunicorn service
 cp gunicorn.service /etc/systemd/system/ 
 
 # and enable it
-systemctl start gunicorn
 systemctl enable gunicorn
 
 # copy the site to nginx
@@ -29,10 +28,8 @@ rm /etc/nginx/sites-enabled/default
 # enable the site
 ln -s /etc/nginx/sites-available/websafety.site /etc/nginx/sites-enabled
 
-# ask nginx to check our site for syntax errors
-nginx -t
-
-# and restart nginx
+# and restart gunicorn and nginx
+systemctl restart gunicorn
 systemctl restart nginx
 
 # to have PDF reports we need to install reportlab with a lot of dependencies
@@ -40,8 +37,3 @@ systemctl restart nginx
 
 # now install reportlab
 #pip install reportlab==3.3.0
-
-# install apache and mod_wsgi
-#apt-get -y install apache2 libapache2-mod-wsgi
-
-

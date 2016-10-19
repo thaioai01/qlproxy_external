@@ -17,5 +17,4 @@ apt-get update && apt-get install -y \
 	libecap3 \
 	squid-common \
 	squid \
-	squidclient \
-	mc
+	squidclient

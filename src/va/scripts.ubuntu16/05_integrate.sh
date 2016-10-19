@@ -6,10 +6,6 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
-# integrate with apache
-a2dissite 000-default
-a2ensite qlproxy
-
 # replace the squid config
 if [ ! -f /etc/squid/squid.conf.default ]; then
     cp -f /etc/squid/squid.conf /etc/squid/squid.conf.default
@@ -30,7 +26,14 @@ fi
 chown -R proxy:proxy $SSL_DB
 
 # reset owner of installation path
-chown -R qlproxy:qlproxy /opt/qlproxy
+chown -R websafety:websafety /opt/websafety
 
 # restart all daemons
-systemctl start qlproxyd && service apache2 restart && service squid restart
+systemctl restart wsmgrd
+systemctl restart wsicapd
+systemctl restart squid
+systemctl restart gunicorn
+systemctl restart nginx
+
+# and tell it
+echo "SUCCESS!"
