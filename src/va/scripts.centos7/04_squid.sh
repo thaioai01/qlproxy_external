@@ -22,5 +22,8 @@ yum -y --nogpgcheck localinstall libecap-1.0.0-3.el7.centos.x86_64.rpm
 yum -y --nogpgcheck localinstall squid-3.5.20-1.el7.centos.x86_64.rpm
 yum -y --nogpgcheck localinstall squid-helpers-3.5.20-1.el7.centos.x86_64.rpm
 
+# add qlproxy to squid group to let the Web UI to see squid logs
+usermod -G squid qlproxy
+
 # make squid autostart after reboot
 systemctl enable squid.service
