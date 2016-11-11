@@ -16,7 +16,7 @@ pip install django==1.6.11
 pip install reportlab==3.3.0
 
 # install apache web server to run web ui
-yum -y install httpd mod_wsgi krb5-workstation
+yum -y install httpd mod_wsgi krb5-workstation mc
 
 # make apache autostart on reboot
 systemctl enable httpd.service
