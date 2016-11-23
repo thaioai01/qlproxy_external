@@ -38,12 +38,3 @@ cd squid3-3.5.22 && dpkg-buildpackage -rfakeroot -b
 
 # and revert
 popd
-
-# modify configure options in debian/rules, add --enable-ssl --enable-ssl-crtd
-#patch squid3-3.4.8/debian/rules < rules.patch
-
-# modify algorithm to sign the root cert and also the fix for Firefox inadequate key error
-#patch squid3-3.4.8/src/ssl/gadgets.cc < gadgets.cc.patch
-
-# build the package
-#cd squid3-3.4.8 && dpkg-buildpackage -rfakeroot -b
