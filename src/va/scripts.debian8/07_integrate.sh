@@ -33,4 +33,4 @@ chown -R proxy:proxy $SSL_DB
 chown -R qlproxy:qlproxy /opt/qlproxy
 
 # restart all daemons
-systemctl restart qlproxyd && systemctl restart apache2 && systemctl restart squid3
+systemctl restart wsicapd && systemctl restart apache2 && systemctl restart squid3
