@@ -7,7 +7,7 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 # install some more required packages
-apt-get -y install ssl-cert
+# apt-get -y install ssl-cert
 apt-get -y install squid-langpack
 
 # get arch
@@ -17,10 +17,16 @@ if [ $? -eq 0 ]; then
 	ARCH="armhf"
 fi
 
-# install our recompiled packages
-dpkg --install squid3-common_3.4.8-*_all.deb
-dpkg --install squid3_3.4.8-*_${ARCH}.deb
-dpkg --install squidclient_3.4.8-*_${ARCH}.deb
+# decend into working directory
+pushd build/squid3
+
+# install ecap packages
+dpkg --install squid-common_3.5.22-1_all.deb
+dpkg --install squid_3.5.22-1_${ARCH}.deb
+dpkg --install squidclient_3.5.22-1_${ARCH}.deb
+
+# and revert
+popd
 
 # put the squid on hold to prevent updating
-apt-mark hold squid3 squid3-common
+apt-mark hold squid squid-common

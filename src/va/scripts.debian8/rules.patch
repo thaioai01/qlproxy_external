@@ -1,11 +1,13 @@
---- rules	2015-06-11 17:09:43.375993066 -0400
-+++ rules.new	2015-06-11 17:09:37.567993235 -0400
-@@ -17,6 +17,8 @@
- DEB_CONFIGURE_EXTRA_FLAGS := --datadir=/usr/share/squid3 \
- 		--sysconfdir=/etc/squid3 \
- 		--mandir=/usr/share/man \
+--- rules	2016-10-29 17:13:00.000000000 -0400
++++ rules.new	2016-11-23 08:51:24.852029336 -0500
+@@ -39,7 +39,9 @@
+ 		--enable-esi \
+ 		--enable-icmp \
+ 		--enable-zph-qos \
+-		--enable-ecap \
 +		--enable-ssl \
 +		--enable-ssl-crtd \
- 		--enable-inline \
- 		--disable-arch-native \
- 		--enable-async-io=8 \
++		--with-openssl \
+ 		--disable-translation \
+ 		--with-swapdir=/var/spool/squid \
+ 		--with-logdir=/var/log/squid \
