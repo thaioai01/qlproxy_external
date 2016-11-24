@@ -17,7 +17,7 @@ apt-get -y build-dep squid3
 # apt-get -y --purge remove libecap2-dev libecap2
 
 # install additional packages for new squid
-apt-get -y install libdbi-perl
+apt-get -y install libdbi-perl libssl-dev
 #apt-get -y install nettle-dev libgnutls28-dev libssl-dev 
 #	libldap2-dev  libpam0g-dev libdb-dev libsasl2-dev libcppunit-dev
 #	libkrb5-dev comerr-dev libcap2-dev libexpat1-dev libxml2-dev
