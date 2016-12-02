@@ -8,7 +8,7 @@ fi
 
 # default arc
 MAJOR="4.8.0"
-MINOR="BA04"
+MINOR="319F"
 ARCH="amd64"
 
 # get latest qlproxy
