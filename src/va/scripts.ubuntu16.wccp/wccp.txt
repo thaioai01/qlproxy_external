@@ -1,57 +1,50 @@
 !
-! squid servers
+! squid servers (object group and access list)
 !
-object-group network wccp_squid_servers
-description WCCP Squid servers IP addresses
-network-object host 192.168.1.15
-network-object host 192.168.1.16
+object-group network wccp-servers-group
+  description Squid servers for WCCP
+  network-object host 192.168.1.15
+  network-object host 192.168.1.16
+
+access-list wccp-servers extended permit ip object-group wccp-servers-group any
 
 !
-! hosts bypassed from WCCP redirection
+! hosts excluded from WCCP
 !
-object-group network wccp_bypassed_hosts
-description hosts bypassed from WCCP redirection
-network-object host 192.168.1.100
-network-object host 192.168.1.10
-network-object host 192.168.1.11
+object-group network wccp-bypass-group
+  description hosts excluded from WCCP
+  network-object host 192.168.1.2
+  network-object host 192.168.1.3
+  network-object host 192.168.1.10
+  network-object host 192.168.1.11
+  network-object host 192.168.1.12  
 
 !
-! hosts redirected to Squid servers using WCCP protocol
+! hosts included into WCCP
 !
-object-group network wccp_redirected_hosts
-description hosts redirected to Squid servers using WCCP protocol
-network-object 192.168.1.0 255.255.255.0
+object-group network wccp-traffic-group
+  description hosts included into WCCP
+  network-object 192.168.1.0 255.255.255.0
 
 !
-! create access list to redirect traffic from Cisco to Squid
+! access list to include/exclude traffic for WCCP
 !
-access-list wccp_acl extended deny tcp object-group wccp_squid_servers any eq www 
-access-list wccp_acl extended deny tcp object-group wccp_bypassed_hosts any eq www 
-access-list wccp_acl extended permit tcp object-group wccp_redirected_hosts any eq www 
+access-list wccp-traffic extended deny ip object-group wccp-servers-group any
+access-list wccp-traffic extended deny ip object-group wccp-bypass-group any
+access-list wccp-traffic extended permit ip object-group wccp-traffic-group any
 
 !
-! activate WCCP
+! enable WCCP redirection for HTTP and HTTPS traffic
 !
-wccp web-cache redirect-list wccp_acl password cisco
+wccp web-cache redirect-list wccp-traffic group-list wccp-servers password cisco
+wccp 70 redirect-list wccp-traffic group-list wccp-servers password cisco
+
+!
+! and activate it on the inside interface
+!
 wccp interface inside web-cache redirect in
+wccp interface inside 70 redirect in
 
 !
-! deactivate WCCP
+! TDO: how to deactivate WCCP on inside interface
 !
-
-???????? HOW ?????
-wccp interface inside web-cache redirect in 
-
-
-##############
-
-
-CISCO ASA
-
-- based on http://www.crypt.gen.nz/papers/cisco_squid_wccp.html
-- or better http://www.amirmontazeri.com/?p=98
-
-access-list wccp-server extended permit ip host 192.168.1.15 any
-access-list wccp-traffic extended deny ip host 192.168.1.15 any
-DOES NOT WORK access-list wccp-traffic extended permit tcp ip 192.168.1.0 255.255.255.0 any eq www
-
