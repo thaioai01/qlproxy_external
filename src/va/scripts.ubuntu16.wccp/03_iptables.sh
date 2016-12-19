@@ -31,6 +31,7 @@ iptables -F
 # redirect incoming GRE tunnel to local Squid port
 iptables -t nat -A PREROUTING -i gre1 -p tcp -m tcp --dport 80 -j DNAT --to-destination 192.168.1.15:3128
 
+
 # ??????
 # TODO?? - may it be the '-A PREROUTING -i gre1 -p tcp -m tcp -j REDIRECT --to-ports 3128' is better?
 # ??????

@@ -15,10 +15,14 @@ fi
 #
 
 # add gre tunnel
+ip tunnel add wccp0 mode gre remote 192.168.178.10 local 192.168.1.15 dev ens160 ttl 255
+ip link set wccp0 up
+
+# trouble shoot
 ip tunnel show
 ip tunnel add wccp0 mode gre remote 192.168.1.10 local 192.168.1.15 dev enp2s0 ttl 255
 
-ip tunnel add wccp0 mode gre remote 192.168.178.10 local 192.168.1.51 dev eth0 ttl 255
+
 
 ip addr add 192.168.1.15 dev wccp0
 ip link set wccp0 up
@@ -34,7 +38,7 @@ echo 1 > /proc/sys/net/ipv4/ip_forward
 # disable ip spoofing protection
 echo 0 > /proc/sys/net/ipv4/conf/default/rp_filter
 echo 0 > /proc/sys/net/ipv4/conf/all/rp_filter
-echo 0 > /proc/sys/net/ipv4/conf/enp2s0/rp_filter
+echo 0 > /proc/sys/net/ipv4/conf/ens160/rp_filter
 echo 0 > /proc/sys/net/ipv4/conf/lo/rp_filter
 echo 0 > /proc/sys/net/ipv4/conf/wccp0/rp_filter
 
@@ -48,14 +52,16 @@ echo 0 > /proc/sys/net/ipv4/conf/gretap0/rp_filter
 iptables -F
 iptables -I INPUT -j ACCEPT
 iptables -t nat -F
-iptables -t nat -A PREROUTING -i wccp0 -p tcp -m tcp --dport 80 -j DNAT --to-destination 192.168.1.15:3128
 
-iptables -t nat -A PREROUTING -i wccp0 -p tcp -m tcp --dport 80 -j DNAT --to-destination 192.168.1.51:3128
+
+iptables -t nat -A PREROUTING -i wccp0 -p tcp -m tcp --dport 443 -j DNAT --to-destination 192.168.1.15:3128
+iptables -t nat -A PREROUTING -i wccp0 -p tcp -m tcp --dport 80 -j DNAT --to-destination 192.168.1.15:3129
+
 
 iptables -t nat -A PREROUTING -i wccp0 -p tcp -m tcp --dport 80 -j REDIRECT --to-port 3128
 
 
-tcpdump –npi eth0 ip proto 47 
+tcpdump –npi ens160 ip proto 47 
 #C
 
 
