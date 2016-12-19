@@ -1,0 +1,50 @@
+!
+! squid servers (object group and access list)
+!
+object-group network wccp-servers-group
+  description Squid servers for WCCP
+  network-object host 192.168.1.15
+  network-object host 192.168.1.16
+
+access-list wccp-servers extended permit ip object-group wccp-servers-group any
+
+!
+! hosts excluded from WCCP
+!
+object-group network wccp-bypass-group
+  description hosts excluded from WCCP
+  network-object host 192.168.1.2
+  network-object host 192.168.1.3
+  network-object host 192.168.1.10
+  network-object host 192.168.1.11
+  network-object host 192.168.1.12  
+
+!
+! hosts included into WCCP
+!
+object-group network wccp-traffic-group
+  description hosts included into WCCP
+  network-object 192.168.1.0 255.255.255.0
+
+!
+! access list to include/exclude traffic for WCCP
+!
+access-list wccp-traffic extended deny ip object-group wccp-servers-group any
+access-list wccp-traffic extended deny ip object-group wccp-bypass-group any
+access-list wccp-traffic extended permit ip object-group wccp-traffic-group any
+
+!
+! enable WCCP redirection for HTTP and HTTPS traffic
+!
+wccp web-cache redirect-list wccp-traffic group-list wccp-servers password cisco
+wccp 70 redirect-list wccp-traffic group-list wccp-servers password cisco
+
+!
+! and activate it on the inside interface
+!
+wccp interface inside web-cache redirect in
+wccp interface inside 70 redirect in
+
+!
+! TDO: how to deactivate WCCP on inside interface
+!
