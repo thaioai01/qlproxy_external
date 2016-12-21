@@ -14,11 +14,19 @@ include "/opt/qlproxy/etc/squid/http_access.acl"
 # ssl-bump settings managed by Web Safety
 include "/opt/qlproxy/etc/squid/sslbump.acl"
 
-# configure squid port
-http_port 3128 ssl-bump generate-host-certificates=on dynamic_cert_mem_cache_size=4MB cert=/opt/qlproxy/etc/myca.pem
+#
+# configure squid ports 
+#
+#   3126 - intercepts HTTP transparently
+#   3127 - intercepts HTTPS transparently
+#   3128 - explicit proxy with HTTPS filtering
+#
+http_port  3126 intercept
+https_port 3127 intercept ssl-bump generate-host-certificates=on dynamic_cert_mem_cache_size=4MB cert=/opt/qlproxy/etc/myca.pem
+http_port  3128 ssl-bump generate-host-certificates=on dynamic_cert_mem_cache_size=4MB cert=/opt/qlproxy/etc/myca.pem
 
 # configure path to ssl cache
-sslcrtd_program /usr/sbin/ssl_crtd -s /var/cache/squid_ssldb -M 4MB
+sslcrtd_program /usr/lib64/squid/ssl_crtd -s /var/spool/squid_ssldb -M 4MB
 
 # Uncomment and adjust the following to add a disk cache directory.
 #cache_dir ufs /var/spool/squid 100 16 256
@@ -38,7 +46,7 @@ refresh_pattern .		0	20%	4320
 include "/opt/qlproxy/etc/squid/icap.acl"
 
 # make squid shutdown faster - default is 30 seconds
-shutdown_lifetime 10 seconds
+shutdown_lifetime 3 seconds
 
 # try to convert domain name to more ip addresses as default
 forward_max_tries 25
@@ -48,4 +56,3 @@ dns_v4_first on
 
 # default visible name used in squid error messages to clients (TODO use here FQDN!)
 visible_hostname websafety
-
