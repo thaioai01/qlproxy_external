@@ -19,5 +19,11 @@ python /opt/qlproxy/var/console/sync_db.py
 chown -R qlproxy:qlproxy /opt/qlproxy
 
 # restart django and wsmgrd
-systemctl restart httpd
 systemctl restart wsmgrd
+
+if [ -f /etc/centos-release ] || [ -f /etc/redhat-release ]; then
+	systemctl restart httpd
+else 
+	systemctl restart apache2
+fi
+
