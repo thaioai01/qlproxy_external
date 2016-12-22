@@ -10,4 +10,4 @@ Main features of the application are:
 
 Diladele Web Safety runs on FreeBSD 10 (pfSense 2.2), RedHat, CentOS, Debian, Ubuntu Linuxes and Raspberry PI 2 (Raspbian), providing comprehensive web filtering solution easily manageble from Web UI.
 
-More information at http://www.quintolabs.com
+More information at https://www.diladele.com

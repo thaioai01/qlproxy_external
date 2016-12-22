@@ -7,14 +7,10 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 # install build tools
-apt-get -y install devscripts build-essential fakeroot libssl-dev
+apt-get -y install devscripts build-essential fakeroot debhelper dh-autoreconf cdbs
 
-# fetch the source for the package to re-build
-apt-get source squid3
-
-# reset the owner
-CURRENT_USER=`logname`
-chown -R $CURRENT_USER:$CURRENT_USER .
-
-# fetch dependent packages for the build
+# install build dependences for squid
 apt-get -y build-dep squid3
+
+# install additional packages for new squid
+apt-get -y install libdbi-perl libssl-dev

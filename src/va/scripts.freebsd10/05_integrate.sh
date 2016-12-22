@@ -37,5 +37,5 @@ chown -R qlproxy:qlproxy /opt/qlproxy
 # restart all daemons
 service apache24 restart
 service wsmgrd restart
-service qlproxyd restart
+service wsicapd restart
 service squid restart

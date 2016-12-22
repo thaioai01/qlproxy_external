@@ -11,18 +11,18 @@ a2dissite 000-default
 a2ensite qlproxy
 
 # replace the squid config
-if [ ! -f /etc/squid3/squid.conf.default ]; then
-    cp -f /etc/squid3/squid.conf /etc/squid3/squid.conf.default
+if [ ! -f /etc/squid/squid.conf.default ]; then
+    cp -f /etc/squid/squid.conf /etc/squid/squid.conf.default
 fi
-cp -f squid.conf /etc/squid3/squid.conf
+cp -f squid.conf /etc/squid/squid.conf
 
 # create squid storage for mimicked ssl certificates
-SSL_DB=/var/spool/squid3_ssldb
+SSL_DB=/var/spool/squid_ssldb
 if [ -d $SSL_DB ]; then
     rm -Rf $SSL_DB
 fi
 
-/usr/lib/squid3/ssl_crtd -c -s $SSL_DB
+/usr/lib/squid/ssl_crtd -c -s $SSL_DB
 if [ $? -ne 0 ]; then
     echo "Error $? while initializing SSL certificate storage, exiting..."
     exit 1
@@ -33,4 +33,4 @@ chown -R proxy:proxy $SSL_DB
 chown -R qlproxy:qlproxy /opt/qlproxy
 
 # restart all daemons
-systemctl restart qlproxyd && systemctl restart apache2 && systemctl restart squid3
+systemctl restart wsicapd && systemctl restart apache2 && systemctl restart squid
