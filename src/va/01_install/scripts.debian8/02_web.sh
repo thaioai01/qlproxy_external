@@ -10,7 +10,7 @@ fi
 apt-get -y install python-ldap python-pip sudo
 
 # install django
-pip install django==1.6.11
+pip install django==1.8.17
 
 # to have PDF reports we need to install reportlab with a lot of dependencies
 apt-get -y install python-dev libjpeg-dev zlib1g-dev
