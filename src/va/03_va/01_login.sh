@@ -10,7 +10,7 @@ fi
 sed -i "s/PermitRootLogin *.*$/PermitRootLogin yes/g" /etc/ssh/sshd_config
 
 # install vm tools (only if vmware is detected)
-dmesg | grep -i "hypervisor detected: vmware" > /dev/null
+dmidecode -s system-product-name | grep -i "vmware" > /dev/null
 if [ $? -eq 0 ]; then
     echo "Detected VMware, installing open-vm-tools..."
     if [ -f /etc/centos-release ] || [ -f /etc/redhat-release ]; then
