@@ -12,40 +12,36 @@ if [ ! -f /etc/default/c-icap.default ]; then
 fi
 patch /etc/default/c-icap < c-icap.patch
 
-# patch settings in c-icap.conf
+# patch settings in c-icap.conf (enable squidclamav)
 if [ ! -f /etc/c-icap/c-icap.conf.default ]; then
-    cp -f /etc/c-icap/c-icap.conf c-icap/c-icap.conf.default
+    cp -f /etc/c-icap/c-icap.conf /etc/c-icap/c-icap.conf.default
 fi
 patch /etc/c-icap/c-icap.conf < c-icap.conf.patch
 
+# patch settings in squidclamav.conf (disable redirect and DNS lookup)
+if [ ! -f /etc/c-icap/squidclamav.conf.default ]; then
+    cp -f /etc/c-icap/squidclamav.conf /etc/c-icap/squidclamav.conf.default
+fi
+patch /etc/c-icap/squidclamav.conf < squidclamav.conf.patch
 
-# stop immediately on any error
-set -e
+# good now restart all related services
+systemctl stop clamav-daemon
+systemctl stop c-icap
 
+systemctl start clamav-daemon
+systemctl start c-icap
 
-# in /etc/c-icap/c-icap.conf change
-#   Service squidclamav squidclamav.so
-
-# in /etc/c-icap/squidclamav.conf change (for example redirect to google when virus is found)
-# redirect http://www.google.com
-
-# download EICAR file to test if it works
-# wget http://www.eicar.org/download/eicar.com
-
-# scan the current folder (it should output "Eicar-Test-Signature FOUND" message)
-# clamscan
-
-# restart
-# systemctl stop c-icap
-# systemctl start c-icap
 
 # check status (must be running)
-# systemctl status c-icap
+systemctl status clamav-daemon
+systemctl status c-icap
 
-# in Web UI / Squid / ICAP / Experimental Chain [X] Enable Antivirus
-# fill ICAP REQMOD Path and ICAP RESPMOD Path as "squidclamav" (without quotes)
-
-# run
-# systemctl restart c-icap
-
-# run Save and Restart from Web UI
+# 
+echo
+echo
+echo SUCCESS: squidclamav module is configured successfully!
+echo SUCCESS: now change ICAP integration settings in Web Safety Web UI
+echo SUCCESS: Squid / ICAP / Integration. Set AV port to 1345 and
+echo SUCCESS: REQMOD/RESPMOD paths to squidclamav
+echo
+echo 
