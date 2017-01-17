@@ -1,55 +1,49 @@
+#!/bin/bash
+
+# check we are root
+if [[ $EUID -ne 0 ]]; then
+   echo "This script must be run as root" 1>&2
+   exit 1
+fi
+
+# stop immediately on any error
+set -e
+
 # install clamav
 apt-get -y install clamav
-apt-get -y install clamav-daemon 
-
-# download EICAR file to test if it works
-wget http://www.eicar.org/download/eicar.com
-
-# scan the current folder (it should output "Eicar-Test-Signature FOUND" message)
-clamscan
+apt-get -y install clamav-daemon
 
 # install c-icap
 apt-get -y install c-icap
 apt-get -y install libicapapi-dev
 
-# in /etc/default/c-icap change
-#   start=YES
+# drop build folder for squidclamav
+rm -R build/squidclamav 2>&1 > /dev/null || true 
 
-# in /etc/c-icap/c-icap.conf change
-#	Port 1345
-#   Service squidclamav squidclamav.so
-#   ModulesDir /usr/lib/x86_64-linux-gnu/c_icap
-#   ServicesDir /usr/lib/x86_64-linux-gnu/c_icap
+# make build folder
+mkdir -p build/squidclamav
 
+# decend into working directory
+pushd build/squidclamav
 
-# install squidclamav
-cd ~
-mkdir squidclamav
-cd squidclamav
-wget http://downloads.sourceforge.net/project/squidclamav/squidclamav/6.16/squidclamav-6.16.tar.gz
-gunzip squidclamav-6.16.tar.gz
-tar -xvf squidclamav-6.16.tar.gz
+# get it
+wget http://downloads.sourceforge.net/project/squidclamav/squidclamav/6.16/squidclamav-6.16.tar.gz \
+	&& gunzip squidclamav-6.16.tar.gz \
+	&& tar -xvf squidclamav-6.16.tar
 
-cd squidclamav-6.16
+# configure and build the package
+cd squidclamav-6.16 && ./configure --with-c-icap=/usr && make 
 
-./configure --with-c-icap=/usr
-make
+# install it
 make install
 
-# in /etc/c-icap/squidclamav.conf change (for example redirect to google when virus is found)
-redirect http://www.google.com
+# revert
+popd
 
-# restart
-systemctl stop c-icap
-systemctl start c-icap
-
-# check status (must be running)
-systemctl status c-icap
-
-# in Web UI / Squid / ICAP / Experimental Chain [X] Enable Antivirus
-# fill ICAP REQMOD Path and ICAP RESPMOD Path as "squidclamav" (without quotes)
-
-# run
-systemctl restart c-icap
-
-# run Save and Restart from Web UI
+# 
+echo
+echo
+echo SUCCESS: squidclamav module is built and installed successfully!
+echo SUCCESS: now run 02_configure.sh script to perform initial configuration.
+echo
+echo 
