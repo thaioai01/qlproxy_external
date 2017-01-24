@@ -28,10 +28,10 @@ wget http://http.debian.net/debian/pool/main/s/squid3/squid3_3.5.23-1.debian.tar
 dpkg-source -x squid3_3.5.23-1.dsc
 
 # modify configure options in debian/rules, add --enable-ssl --enable-ssl-crtd
-patch squid3-3.5.23/debian/rules < ../../rules.patch
+patch squid3-3.5.23/debian/rules < rules.patch
 
 # modify control file, drop explicitly specified debhelper version
-patch squid3-3.5.23/debian/control < ../../control.patch
+patch squid3-3.5.23/debian/control < control.patch
 
 # build the package
 cd squid3-3.5.23 && dpkg-buildpackage -rfakeroot -b
