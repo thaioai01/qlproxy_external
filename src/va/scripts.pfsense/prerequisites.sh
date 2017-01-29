@@ -13,7 +13,7 @@ pkg add $REPOURL/ap24-mod_wsgi4-4.4.21.txz
 # install django and sqlite modules for python
 pkg add $REPOURL/py27-setuptools27-19.2.txz
 pkg add $REPOURL/py27-sqlite3-2.7.11_7.txz
-pkg add $REPOURL/py27-django16-1.6.11.txz
+pkg add $REPOURL/py27-django18-1.8.10.txz
 
 # in order to correctly start up apache at boot time init script needs to be renamed
 cp /usr/local/etc/rc.d/apache24 /usr/local/etc/rc.d/apache24.sh
