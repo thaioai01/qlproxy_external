@@ -4,7 +4,7 @@
 ARCH=`uname -m`
 
 DDWS_VERSION=4.9.0
-DDWS_BUILD=E04C
+DDWS_BUILD=1487
 
 # get latest version of web safety
 fetch http://packages.diladele.com/qlproxy/$DDWS_VERSION.$DDWS_BUILD/$ARCH/release/freebsd10/qlproxy-$DDWS_VERSION-$ARCH.txz
