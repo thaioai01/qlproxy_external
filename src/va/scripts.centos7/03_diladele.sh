@@ -8,7 +8,7 @@ fi
 
 # default arc
 MAJOR="4.9.0"
-MINOR="1487"
+MINOR="5DBC"
 
 # get latest qlproxy
 curl -O http://packages.diladele.com/qlproxy/$MAJOR.$MINOR/amd64/release/centos7/qlproxy-${MAJOR}-${MINOR}.x86_64.rpm
