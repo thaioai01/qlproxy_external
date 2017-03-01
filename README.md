@@ -1,4 +1,7 @@
-Diladele Web Safety is an ICAP web filter that integrates with existing Squid proxy server and provides rich content and web filtering functionality to sanitize Internet traffic passing into internal home/enterprise network.
+Web Safety for Squid
+====================
+
+Web Safety is an ICAP web filter that integrates with existing Squid proxy server and provides rich content and web filtering functionality to sanitize Internet traffic passing into internal home/enterprise network.
 
 Main features of the application are:
 
@@ -10,6 +13,6 @@ Main features of the application are:
 - removes annoying web ads 
 - protects online privacy by disallowing access to web trackers
 
-Diladele Web Safety runs on modern versions of FreeBSD (pfSense), CentOS, Debian, Ubuntu Linuxes and Raspberry PI 2 (Raspbian), providing comprehensive web filtering solution easily manageble from Web UI.
+Web Safety runs on modern versions of FreeBSD (pfSense), CentOS, Debian, Ubuntu Linuxes and Raspberry PI 2 (Raspbian), providing comprehensive web filtering solution easily manageble from Web UI.
 
 More information at https://www.diladele.com
