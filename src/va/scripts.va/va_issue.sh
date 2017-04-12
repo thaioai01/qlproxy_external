@@ -5,7 +5,7 @@ CPUNUM=`cat /proc/cpuinfo | grep processor | wc -l`
 RAMNFO=`free -mh | grep Mem: | awk {'print $2, "total,", $4, "free" '}`
 DISKSZ=`df -h | grep "/$" | awk {'print $2, "total,", $4, "free" '}`
 VA_VER=`/opt/qlproxy/bin/ldap --version`
-SQUID_VER='3.5.19'
+SQUID_VER='3.5.23'
 
 # some string manupulation magic
 OSINFO_TMP1=`cat /etc/os-release | grep ^VERSION=`

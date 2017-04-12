@@ -12,7 +12,7 @@ yum -y install \
 	net-tools libjpeg-devel zlib-devel gcc-c++
 
 # install python django for web ui
-pip install django==1.6.11
+pip install django==1.8.17
 pip install reportlab==3.3.0
 
 # install apache web server to run web ui

@@ -1,5 +1,9 @@
 #!/bin/csh
 
+# update ports to get latest squid
+portsnap fetch
+portsnap update
+
 # build squid
 cd /usr/ports/www/squid
 make install clean
